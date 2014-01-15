@@ -16,7 +16,8 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/asio.hpp>
 
-#include "position.h"
+#include <tuple>
+#include "tracked_object.h"
 
 using boost::asio::ip::udp;
 
@@ -44,7 +45,21 @@ private:
         boost::bind(&udp_server::handle_receive, this,
           boost::asio::placeholders::error,
           boost::asio::placeholders::bytes_transferred));
-          (*recv_buffer_.data()).printData();
+
+          unsigned long id;
+          unsigned long time;
+          imr::STrackedObject trackedObj;
+
+          std::tie(id, time, trackedObj) = *recv_buffer_.data();
+
+          // std::tuple<unsigned long, unsigned long, imr::STrackedObject> data = *recv_buffer_.data();
+
+          std::cout << "id: " << id << std::endl
+                    << "time: " << time << std::endl
+                    << "X: " << trackedObj.x << std::endl
+                    << "Y: " << trackedObj.y << std::endl
+                    << "Z: " << trackedObj.z << std::endl
+                    << std::endl;
   }
 
   void handle_receive(const boost::system::error_code& error,
@@ -72,7 +87,7 @@ private:
 
   udp::socket socket_;
   udp::endpoint remote_endpoint_;
-  boost::array<position, 1> recv_buffer_;
+  boost::array<std::tuple<unsigned long, unsigned long, imr::STrackedObject>, 1> recv_buffer_;
 };
 
 int main()

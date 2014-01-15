@@ -13,7 +13,8 @@
 #include <boost/asio.hpp>
 #include <string>
 
-#include "position.h"
+#include <tuple>
+#include "tracked_object.h"
 
 using boost::asio::ip::udp;
 
@@ -36,7 +37,6 @@ int main(int argc, char* argv[])
     udp::socket socket(io_service);
     socket.open(udp::v4());
 
-    position pos;
     imr::STrackedObject trackedObj;
     trackedObj.valid = true;
     trackedObj.x = 1;
@@ -47,16 +47,13 @@ int main(int argc, char* argv[])
     trackedObj.yaw = 0.39;
     trackedObj.pixel_ratio = 15.1267;
     trackedObj.bw_ratio = 55.653;
-
-    pos.trackedObj = trackedObj;
-    pos.x = 9;
-    pos.y = 8;
-    pos.z = 7;
-    pos.pitch = 0.66;
-    pos.roll = 0.55;
-    pos.yaw = 0.44;
     
-    boost::array<position, 1> send_buf  = {{ pos }};
+    unsigned long id = 111111;
+    unsigned long time = 123456;
+
+    std::tuple<unsigned long, unsigned long, imr::STrackedObject> sendData = std::make_tuple(id, time, trackedObj);
+
+    boost::array<std::tuple<unsigned long, unsigned long, imr::STrackedObject>, 1> send_buf  = {{ sendData }};
     socket.send_to(boost::asio::buffer(send_buf), receiver_endpoint);
 
     boost::array<char, 128> recv_buf;

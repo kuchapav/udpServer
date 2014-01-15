@@ -1,9 +1,10 @@
 # compiler
 CC = $(CXX)
+# CC = clang
 
 # compile-time flags
 # CFLAGS = -Wall -g
-CFLAGS = -g
+CFLAGS = -g -std=c++0x
 PTHREAD = -pthread
 
 # path to compiled boost library (necessary only if it isn't in compilers include path)
