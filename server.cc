@@ -16,6 +16,8 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/asio.hpp>
 
+#include "position.h"
+
 using boost::asio::ip::udp;
 
 std::string make_daytime_string()
@@ -42,6 +44,7 @@ private:
         boost::bind(&udp_server::handle_receive, this,
           boost::asio::placeholders::error,
           boost::asio::placeholders::bytes_transferred));
+          (*recv_buffer_.data()).printData();
   }
 
   void handle_receive(const boost::system::error_code& error,
@@ -69,7 +72,7 @@ private:
 
   udp::socket socket_;
   udp::endpoint remote_endpoint_;
-  boost::array<char, 1> recv_buffer_;
+  boost::array<position, 1> recv_buffer_;
 };
 
 int main()

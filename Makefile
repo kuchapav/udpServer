@@ -35,7 +35,7 @@ $(OBJS): %.o: %.cc
 	$(CC) -c $< $(CFLAGS) $(BOOST_INCLUDE) -o $@
 
 server: $(OBJS)
-	$(CC) $(CFLAGS) server.o $(BOOST_INCLUDE) $(BOOST_SYSTEM) $(PTHREAD) -o $@
+	$(CC) $(CFLAGS) server.o position.o $(BOOST_INCLUDE) $(BOOST_SYSTEM) $(PTHREAD) -o $@
 
 client: $(OBJS)
 	$(CC) $(CFLAGS) client.o $(BOOST_INCLUDE) $(BOOST_SYSTEM) $(PTHREAD) -o $@
