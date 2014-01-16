@@ -22,7 +22,7 @@ BOOST_SYSTEM = $(BOOST_LIBS)/libboost_system.a
 OBJS = $(patsubst %.cc, %.o, $(wildcard *.cc))
 
 # program name
-TARGET = server client
+TARGET = server main
 
 
 bin: $(TARGET)
@@ -38,8 +38,8 @@ $(OBJS): %.o: %.cc
 server: $(OBJS)
 	$(CC) $(CFLAGS) server.o position.o $(BOOST_INCLUDE) $(BOOST_SYSTEM) $(PTHREAD) -o $@
 
-client: $(OBJS)
-	$(CC) $(CFLAGS) client.o $(BOOST_INCLUDE) $(BOOST_SYSTEM) $(PTHREAD) -o $@
+main: $(OBJS)
+	$(CC) $(CFLAGS) main.o udpClient.o $(BOOST_INCLUDE) $(BOOST_SYSTEM) $(PTHREAD) -o $@
 
 clean:
 	$(RM) $(OBJS) $(TARGET)
