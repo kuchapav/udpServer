@@ -5,14 +5,12 @@ int main(int argc, char const *argv[])
 {
 	try
   	{
-    	if (argc != 2)
-    	{
-      		std::cerr << "Usage: main <host>" << std::endl;
-      		return 1;
-    	}
 
     	boost::asio::io_service io_service;
-    	udpClient my_client(io_service, argv[1]);
+
+      const std::string host = argc > 1 ? std::string(argv[1]) : "localhost";
+      
+    	udpClient my_client(io_service, host);
 
     	imr::STrackedObject trackedObj;
 	    trackedObj.valid = true;

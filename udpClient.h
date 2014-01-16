@@ -11,8 +11,8 @@
 class udpClient
 {
 public:
-	udpClient(boost::asio::io_service& io_service, const char *host);
-	~udpClient();
+	udpClient(boost::asio::io_service& io_service, const std::string host);
+	~udpClient(void);
 	void send(std::tuple<unsigned long, unsigned long, imr::STrackedObject> data);
 
 private:
